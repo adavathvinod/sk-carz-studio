@@ -129,15 +129,15 @@ const packages = [
 ];
 
 const heroServices = [
-  "Paint Protection Film",
-  "Ceramic Coating",
-  "Interior Detailing",
-  "Exterior Detailing",
-  "Premium Car Wash",
-  "Seat Covers & Customization",
-  "Car Floor Matting",
-  "Mud Flaps Installation",
-  "Legal Black Tinting",
+  { name: "Paint Protection Film", image: ppfImg },
+  { name: "Ceramic Coating", image: ceramicImg },
+  { name: "Interior Detailing", image: interiorImg },
+  { name: "Exterior Detailing", image: exteriorImg },
+  { name: "Premium Car Wash", image: foamImg },
+  { name: "Seat Covers & Customization", image: seatImg },
+  { name: "Car Floor Matting", image: floorImg },
+  { name: "Mud Flaps Installation", image: mudImg },
+  { name: "Legal Black Tinting", image: tintImg },
 ];
 
 const Index = () => {
@@ -172,8 +172,19 @@ const Index = () => {
     <div>
       {/* Hero */}
       <section className="relative min-h-svh flex items-center justify-center overflow-hidden">
-        <img src={heroCar} alt="SK Carz Detailing" className="absolute inset-0 w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/40 to-background" />
+        {/* Cycling background images */}
+        {heroServices.map((svc, i) => (
+          <motion.img
+            key={svc.name}
+            src={svc.image}
+            alt={svc.name}
+            initial={false}
+            animate={{ opacity: activeService === i ? 1 : 0, scale: activeService === i ? 1 : 1.05 }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        ))}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/50 to-background" />
 
         <div className="relative z-10 text-center section-container">
           <motion.h1
@@ -186,9 +197,9 @@ const Index = () => {
 
           {/* Cinematic service cycling */}
           <div className="h-12 md:h-14 relative overflow-hidden mb-6">
-            {heroServices.map((service, i) => (
+            {heroServices.map((svc, i) => (
               <motion.div
-                key={service}
+                key={svc.name}
                 initial={false}
                 animate={{
                   opacity: activeService === i ? 1 : 0,
@@ -200,7 +211,7 @@ const Index = () => {
                 className="absolute inset-0 flex items-center justify-center"
               >
                 <span className="font-mono text-sm md:text-base uppercase tracking-[0.35em] text-primary">
-                  {String(i + 1).padStart(2, "0")} — {service}
+                  {String(i + 1).padStart(2, "0")} — {svc.name}
                 </span>
               </motion.div>
             ))}
