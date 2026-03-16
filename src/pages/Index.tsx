@@ -138,15 +138,15 @@ const packages = [
 ];
 
 const heroServices = [
-  { name: "Paint Protection Film", image: ppfImg },
-  { name: "Ceramic Coating", image: ceramicImg },
-  { name: "Interior Detailing", image: interiorImg },
-  { name: "Exterior Detailing", image: exteriorImg },
-  { name: "Premium Car Wash", image: foamImg },
-  { name: "Seat Covers & Customization", image: seatImg },
-  { name: "Car Floor Matting", image: floorImg },
-  { name: "Mud Flaps Installation", image: mudImg },
-  { name: "Legal Black Tinting", image: tintImg },
+  { name: "Paint Protection Film", image: topviewPpf },
+  { name: "Ceramic Coating", image: topviewCeramic },
+  { name: "Interior Detailing", image: topviewInterior },
+  { name: "Exterior Detailing", image: topviewExterior },
+  { name: "Premium Car Wash", image: topviewWash },
+  { name: "Seat Covers & Customization", image: topviewSeats },
+  { name: "Car Floor Matting", image: topviewFloor },
+  { name: "Mud Flaps Installation", image: topviewMudflaps },
+  { name: "Legal Black Tinting", image: topviewTint },
 ];
 
 const Index = () => {
