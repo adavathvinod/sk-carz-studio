@@ -129,15 +129,15 @@ const packages = [
 ];
 
 const heroServices = [
-  "Paint Protection Film",
-  "Ceramic Coating",
-  "Interior Detailing",
-  "Exterior Detailing",
-  "Premium Car Wash",
-  "Seat Covers & Customization",
-  "Car Floor Matting",
-  "Mud Flaps Installation",
-  "Legal Black Tinting",
+  { name: "Paint Protection Film", image: ppfImg },
+  { name: "Ceramic Coating", image: ceramicImg },
+  { name: "Interior Detailing", image: interiorImg },
+  { name: "Exterior Detailing", image: exteriorImg },
+  { name: "Premium Car Wash", image: foamImg },
+  { name: "Seat Covers & Customization", image: seatImg },
+  { name: "Car Floor Matting", image: floorImg },
+  { name: "Mud Flaps Installation", image: mudImg },
+  { name: "Legal Black Tinting", image: tintImg },
 ];
 
 const Index = () => {
