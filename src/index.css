@@ -6,46 +6,46 @@
 
 @layer base {
   :root {
-    --background: 0 0% 2%;
-    --foreground: 0 0% 90%;
-    --card: 0 0% 6.7%;
-    --card-foreground: 0 0% 90%;
-    --popover: 0 0% 6.7%;
-    --popover-foreground: 0 0% 90%;
+    --background: 220 15% 12%;
+    --foreground: 0 0% 95%;
+    --card: 220 14% 16%;
+    --card-foreground: 0 0% 95%;
+    --popover: 220 14% 16%;
+    --popover-foreground: 0 0% 95%;
     --primary: 24 100% 50%;
     --primary-foreground: 0 0% 2%;
-    --secondary: 0 0% 6.7%;
-    --secondary-foreground: 0 0% 90%;
-    --muted: 0 0% 10%;
-    --muted-foreground: 0 0% 55%;
+    --secondary: 220 12% 20%;
+    --secondary-foreground: 0 0% 95%;
+    --muted: 220 12% 22%;
+    --muted-foreground: 220 10% 60%;
     --accent: 24 100% 50%;
     --accent-foreground: 0 0% 2%;
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 90%;
-    --border: 0 0% 14%;
-    --input: 0 0% 14%;
+    --destructive-foreground: 0 0% 95%;
+    --border: 220 12% 22%;
+    --input: 220 12% 22%;
     --ring: 24 100% 50%;
     --radius: 0.125rem;
 
-    --sidebar-background: 0 0% 4%;
-    --sidebar-foreground: 0 0% 90%;
+    --sidebar-background: 220 15% 14%;
+    --sidebar-foreground: 0 0% 95%;
     --sidebar-primary: 24 100% 50%;
     --sidebar-primary-foreground: 0 0% 2%;
-    --sidebar-accent: 0 0% 10%;
-    --sidebar-accent-foreground: 0 0% 90%;
-    --sidebar-border: 0 0% 14%;
+    --sidebar-accent: 220 12% 20%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 220 12% 22%;
     --sidebar-ring: 24 100% 50%;
 
     /* Custom tokens */
-    --glass: 0 0% 8%;
-    --glass-border: 0 0% 100% / 0.1;
+    --glass: 220 14% 18%;
+    --glass-border: 0 0% 100% / 0.12;
     --accent-glow: 24 100% 50% / 0.15;
-    --shadow-dramatic: 0 20px 50px rgba(0,0,0,0.5);
+    --shadow-dramatic: 0 20px 50px rgba(0,0,0,0.4);
   }
 
   .dark {
-    --background: 0 0% 2%;
-    --foreground: 0 0% 90%;
+    --background: 220 15% 12%;
+    --foreground: 0 0% 95%;
   }
 }
 

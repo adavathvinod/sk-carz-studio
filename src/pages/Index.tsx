@@ -13,6 +13,15 @@ import seatImg from "@/assets/seat-covers.jpg";
 import floorImg from "@/assets/floor-matting.jpg";
 import mudImg from "@/assets/mud-flaps.jpg";
 import tintImg from "@/assets/window-tinting.jpg";
+import topviewPpf from "@/assets/topview-ppf.jpg";
+import topviewCeramic from "@/assets/topview-ceramic.jpg";
+import topviewInterior from "@/assets/topview-interior.jpg";
+import topviewExterior from "@/assets/topview-exterior.jpg";
+import topviewWash from "@/assets/topview-wash.jpg";
+import topviewSeats from "@/assets/topview-seats.jpg";
+import topviewFloor from "@/assets/topview-floor.jpg";
+import topviewMudflaps from "@/assets/topview-mudflaps.jpg";
+import topviewTint from "@/assets/topview-tint.jpg";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 40 },
@@ -129,25 +138,32 @@ const packages = [
 ];
 
 const heroServices = [
-  { name: "Paint Protection Film", image: ppfImg },
-  { name: "Ceramic Coating", image: ceramicImg },
-  { name: "Interior Detailing", image: interiorImg },
-  { name: "Exterior Detailing", image: exteriorImg },
-  { name: "Premium Car Wash", image: foamImg },
-  { name: "Seat Covers & Customization", image: seatImg },
-  { name: "Car Floor Matting", image: floorImg },
-  { name: "Mud Flaps Installation", image: mudImg },
-  { name: "Legal Black Tinting", image: tintImg },
+  { name: "Paint Protection Film", image: topviewPpf },
+  { name: "Ceramic Coating", image: topviewCeramic },
+  { name: "Interior Detailing", image: topviewInterior },
+  { name: "Exterior Detailing", image: topviewExterior },
+  { name: "Premium Car Wash", image: topviewWash },
+  { name: "Seat Covers & Customization", image: topviewSeats },
+  { name: "Car Floor Matting", image: topviewFloor },
+  { name: "Mud Flaps Installation", image: topviewMudflaps },
+  { name: "Legal Black Tinting", image: topviewTint },
 ];
 
 const Index = () => {
   const [activeService, setActiveService] = useState(0);
+  const [showTitle, setShowTitle] = useState(true);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveService((prev) => (prev + 1) % heroServices.length);
     }, 800);
     return () => clearInterval(interval);
+  }, []);
+
+  // Hide title after 3 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => setShowTitle(false), 3000);
+    return () => clearTimeout(timer);
   }, []);
   const [selectedVehicle, setSelectedVehicle] = useState<string>("");
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
@@ -188,7 +204,9 @@ const Index = () => {
 
         <div className="relative z-10 text-center section-container">
           <motion.h1
-            {...fadeInUp}
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: showTitle ? 1 : 0, y: showTitle ? 0 : -30 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             className="font-display text-5xl md:text-7xl lg:text-8xl font-bold text-foreground mb-4 leading-none"
           >
             Premium Car<br />
