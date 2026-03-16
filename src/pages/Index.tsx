@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Shield, Droplets, Sparkles, Car, Star, User, Check, ChevronRight } from "lucide-react";
@@ -128,7 +128,27 @@ const packages = [
   },
 ];
 
+const heroServices = [
+  "Paint Protection Film",
+  "Ceramic Coating",
+  "Interior Detailing",
+  "Exterior Detailing",
+  "Premium Car Wash",
+  "Seat Covers & Customization",
+  "Car Floor Matting",
+  "Mud Flaps Installation",
+  "Legal Black Tinting",
+];
+
 const Index = () => {
+  const [activeService, setActiveService] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveService((prev) => (prev + 1) % heroServices.length);
+    }, 2500);
+    return () => clearInterval(interval);
+  }, []);
   const [selectedVehicle, setSelectedVehicle] = useState<string>("");
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
 
@@ -158,11 +178,57 @@ const Index = () => {
         <div className="relative z-10 text-center section-container">
           <motion.h1
             {...fadeInUp}
-            className="font-display text-5xl md:text-7xl lg:text-8xl font-bold text-foreground mb-6 leading-none"
+            className="font-display text-5xl md:text-7xl lg:text-8xl font-bold text-foreground mb-4 leading-none"
           >
             Premium Car<br />
             <span className="text-gradient">Detailing Experience</span>
           </motion.h1>
+
+          {/* Cinematic service cycling */}
+          <div className="h-12 md:h-14 relative overflow-hidden mb-6">
+            {heroServices.map((service, i) => (
+              <motion.div
+                key={service}
+                initial={false}
+                animate={{
+                  opacity: activeService === i ? 1 : 0,
+                  y: activeService === i ? 0 : activeService > i ? -30 : 30,
+                  scale: activeService === i ? 1 : 0.9,
+                  filter: activeService === i ? "blur(0px)" : "blur(6px)",
+                }}
+                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                className="absolute inset-0 flex items-center justify-center"
+              >
+                <span className="font-mono text-sm md:text-base uppercase tracking-[0.35em] text-primary">
+                  {String(i + 1).padStart(2, "0")} — {service}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Progress dots */}
+          <div className="flex items-center justify-center gap-1.5 mb-8">
+            {heroServices.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setActiveService(i)}
+                className="relative h-1 rounded-full overflow-hidden transition-all duration-300"
+                style={{ width: activeService === i ? 28 : 8 }}
+              >
+                <span className="absolute inset-0 bg-muted-foreground/30 rounded-full" />
+                {activeService === i && (
+                  <motion.span
+                    className="absolute inset-0 bg-primary rounded-full origin-left"
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    transition={{ duration: 2.5, ease: "linear" }}
+                    key={`bar-${i}`}
+                  />
+                )}
+              </button>
+            ))}
+          </div>
+
           <motion.p
             {...fadeInUp}
             transition={{ ...fadeInUp.transition, delay: 0.15 }}
