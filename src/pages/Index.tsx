@@ -151,12 +151,19 @@ const heroServices = [
 
 const Index = () => {
   const [activeService, setActiveService] = useState(0);
+  const [showTitle, setShowTitle] = useState(true);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveService((prev) => (prev + 1) % heroServices.length);
     }, 800);
     return () => clearInterval(interval);
+  }, []);
+
+  // Hide title after 3 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => setShowTitle(false), 3000);
+    return () => clearTimeout(timer);
   }, []);
   const [selectedVehicle, setSelectedVehicle] = useState<string>("");
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
