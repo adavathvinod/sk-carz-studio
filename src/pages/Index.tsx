@@ -172,8 +172,19 @@ const Index = () => {
     <div>
       {/* Hero */}
       <section className="relative min-h-svh flex items-center justify-center overflow-hidden">
-        <img src={heroCar} alt="SK Carz Detailing" className="absolute inset-0 w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/40 to-background" />
+        {/* Cycling background images */}
+        {heroServices.map((svc, i) => (
+          <motion.img
+            key={svc.name}
+            src={svc.image}
+            alt={svc.name}
+            initial={false}
+            animate={{ opacity: activeService === i ? 1 : 0, scale: activeService === i ? 1 : 1.05 }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        ))}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/50 to-background" />
 
         <div className="relative z-10 text-center section-container">
           <motion.h1
