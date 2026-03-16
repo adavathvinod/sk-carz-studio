@@ -221,7 +221,7 @@ const Index = () => {
                     className="absolute inset-0 bg-primary rounded-full origin-left"
                     initial={{ scaleX: 0 }}
                     animate={{ scaleX: 1 }}
-                    transition={{ duration: 2.5, ease: "linear" }}
+                    transition={{ duration: 0.8, ease: "linear" }}
                     key={`bar-${i}`}
                   />
                 )}
