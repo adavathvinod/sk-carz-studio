@@ -128,7 +128,27 @@ const packages = [
   },
 ];
 
+const heroServices = [
+  "Paint Protection Film",
+  "Ceramic Coating",
+  "Interior Detailing",
+  "Exterior Detailing",
+  "Premium Car Wash",
+  "Seat Covers & Customization",
+  "Car Floor Matting",
+  "Mud Flaps Installation",
+  "Legal Black Tinting",
+];
+
 const Index = () => {
+  const [activeService, setActiveService] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveService((prev) => (prev + 1) % heroServices.length);
+    }, 2500);
+    return () => clearInterval(interval);
+  }, []);
   const [selectedVehicle, setSelectedVehicle] = useState<string>("");
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
 
