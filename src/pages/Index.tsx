@@ -146,7 +146,7 @@ const Index = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveService((prev) => (prev + 1) % heroServices.length);
-    }, 2500);
+    }, 800);
     return () => clearInterval(interval);
   }, []);
   const [selectedVehicle, setSelectedVehicle] = useState<string>("");
