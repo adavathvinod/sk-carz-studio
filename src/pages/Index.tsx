@@ -196,7 +196,7 @@ const Index = () => {
                   scale: activeService === i ? 1 : 0.9,
                   filter: activeService === i ? "blur(0px)" : "blur(6px)",
                 }}
-                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
                 className="absolute inset-0 flex items-center justify-center"
               >
                 <span className="font-mono text-sm md:text-base uppercase tracking-[0.35em] text-primary">
