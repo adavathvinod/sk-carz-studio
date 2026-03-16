@@ -197,9 +197,9 @@ const Index = () => {
 
           {/* Cinematic service cycling */}
           <div className="h-12 md:h-14 relative overflow-hidden mb-6">
-            {heroServices.map((service, i) => (
+            {heroServices.map((svc, i) => (
               <motion.div
-                key={service}
+                key={svc.name}
                 initial={false}
                 animate={{
                   opacity: activeService === i ? 1 : 0,
@@ -211,7 +211,7 @@ const Index = () => {
                 className="absolute inset-0 flex items-center justify-center"
               >
                 <span className="font-mono text-sm md:text-base uppercase tracking-[0.35em] text-primary">
-                  {String(i + 1).padStart(2, "0")} — {service}
+                  {String(i + 1).padStart(2, "0")} — {svc.name}
                 </span>
               </motion.div>
             ))}
