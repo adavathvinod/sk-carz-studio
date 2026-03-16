@@ -146,7 +146,7 @@ const Index = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveService((prev) => (prev + 1) % heroServices.length);
-    }, 2500);
+    }, 800);
     return () => clearInterval(interval);
   }, []);
   const [selectedVehicle, setSelectedVehicle] = useState<string>("");
@@ -196,7 +196,7 @@ const Index = () => {
                   scale: activeService === i ? 1 : 0.9,
                   filter: activeService === i ? "blur(0px)" : "blur(6px)",
                 }}
-                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
                 className="absolute inset-0 flex items-center justify-center"
               >
                 <span className="font-mono text-sm md:text-base uppercase tracking-[0.35em] text-primary">
@@ -221,7 +221,7 @@ const Index = () => {
                     className="absolute inset-0 bg-primary rounded-full origin-left"
                     initial={{ scaleX: 0 }}
                     animate={{ scaleX: 1 }}
-                    transition={{ duration: 2.5, ease: "linear" }}
+                    transition={{ duration: 0.8, ease: "linear" }}
                     key={`bar-${i}`}
                   />
                 )}
