@@ -37,10 +37,10 @@
     --sidebar-ring: 24 100% 50%;
 
     /* Custom tokens */
-    --glass: 0 0% 8%;
-    --glass-border: 0 0% 100% / 0.1;
+    --glass: 220 14% 18%;
+    --glass-border: 0 0% 100% / 0.12;
     --accent-glow: 24 100% 50% / 0.15;
-    --shadow-dramatic: 0 20px 50px rgba(0,0,0,0.5);
+    --shadow-dramatic: 0 20px 50px rgba(0,0,0,0.4);
   }
 
   .dark {
