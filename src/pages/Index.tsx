@@ -13,6 +13,15 @@ import seatImg from "@/assets/seat-covers.jpg";
 import floorImg from "@/assets/floor-matting.jpg";
 import mudImg from "@/assets/mud-flaps.jpg";
 import tintImg from "@/assets/window-tinting.jpg";
+import topviewPpf from "@/assets/topview-ppf.jpg";
+import topviewCeramic from "@/assets/topview-ceramic.jpg";
+import topviewInterior from "@/assets/topview-interior.jpg";
+import topviewExterior from "@/assets/topview-exterior.jpg";
+import topviewWash from "@/assets/topview-wash.jpg";
+import topviewSeats from "@/assets/topview-seats.jpg";
+import topviewFloor from "@/assets/topview-floor.jpg";
+import topviewMudflaps from "@/assets/topview-mudflaps.jpg";
+import topviewTint from "@/assets/topview-tint.jpg";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 40 },
