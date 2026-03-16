@@ -204,7 +204,9 @@ const Index = () => {
 
         <div className="relative z-10 text-center section-container">
           <motion.h1
-            {...fadeInUp}
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: showTitle ? 1 : 0, y: showTitle ? 0 : -30 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             className="font-display text-5xl md:text-7xl lg:text-8xl font-bold text-foreground mb-4 leading-none"
           >
             Premium Car<br />
