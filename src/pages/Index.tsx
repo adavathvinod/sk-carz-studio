@@ -152,18 +152,46 @@ const heroServices = [
 const Index = () => {
   const [activeService, setActiveService] = useState(0);
   const [showTitle, setShowTitle] = useState(true);
+  const [isDragging, setIsDragging] = useState(false);
+  const dragRef = useRef<{ startX: number; startY: number; startIndex: number } | null>(null);
+  const autoPlayRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
+  // Auto-cycle when not dragging
   useEffect(() => {
-    const interval = setInterval(() => {
+    if (isDragging) return;
+    autoPlayRef.current = setInterval(() => {
       setActiveService((prev) => (prev + 1) % heroServices.length);
     }, 800);
-    return () => clearInterval(interval);
-  }, []);
+    return () => { if (autoPlayRef.current) clearInterval(autoPlayRef.current); };
+  }, [isDragging]);
 
   // Hide title after 3 seconds
   useEffect(() => {
     const timer = setTimeout(() => setShowTitle(false), 3000);
     return () => clearTimeout(timer);
+  }, []);
+
+  const handlePointerDown = useCallback((e: React.PointerEvent) => {
+    setIsDragging(true);
+    dragRef.current = { startX: e.clientX, startY: e.clientY, startIndex: activeService };
+    (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
+  }, [activeService]);
+
+  const handlePointerMove = useCallback((e: React.PointerEvent) => {
+    if (!dragRef.current) return;
+    const dx = e.clientX - dragRef.current.startX;
+    const dy = e.clientY - dragRef.current.startY;
+    // Combine horizontal and vertical movement for omnidirectional spin
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    const direction = dx + dy > 0 ? 1 : -1;
+    const steps = Math.floor(distance / 40); // every 40px = next image
+    const newIndex = ((dragRef.current.startIndex + steps * direction) % heroServices.length + heroServices.length) % heroServices.length;
+    setActiveService(newIndex);
+  }, []);
+
+  const handlePointerUp = useCallback(() => {
+    setIsDragging(false);
+    dragRef.current = null;
   }, []);
   const [selectedVehicle, setSelectedVehicle] = useState<string>("");
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
