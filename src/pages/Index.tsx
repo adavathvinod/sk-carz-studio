@@ -235,28 +235,6 @@ const Index = () => {
             ))}
           </div>
 
-          {/* Progress dots */}
-          <div className="flex items-center justify-center gap-1.5 mb-8">
-            {heroServices.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setActiveService(i)}
-                className="relative h-1 rounded-full overflow-hidden transition-all duration-300"
-                style={{ width: activeService === i ? 28 : 8 }}
-              >
-                <span className="absolute inset-0 bg-muted-foreground/30 rounded-full" />
-                {activeService === i && (
-                  <motion.span
-                    className="absolute inset-0 bg-primary rounded-full origin-left"
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: 1 }}
-                    transition={{ duration: 0.8, ease: "linear" }}
-                    key={`bar-${i}`}
-                  />
-                )}
-              </button>
-            ))}
-          </div>
 
           <motion.p
             {...fadeInUp}
