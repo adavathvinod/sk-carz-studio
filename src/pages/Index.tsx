@@ -297,6 +297,7 @@ const Index = () => {
             <Link to="/booking" className="btn-primary shimmer">Book Appointment</Link>
             <Link to="/services" className="btn-outline">Explore Services</Link>
           </motion.div>
+          </div>
         </div>
 
         {/* Stats bar */}
