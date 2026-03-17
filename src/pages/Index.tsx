@@ -153,6 +153,7 @@ const Index = () => {
   const [activeService, setActiveService] = useState(0);
   const [showTitle, setShowTitle] = useState(true);
   const [isDragging, setIsDragging] = useState(false);
+  const [dragTilt, setDragTilt] = useState({ x: 0, y: 0 });
   const dragRef = useRef<{ startX: number; startY: number; startIndex: number } | null>(null);
   const autoPlayRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -187,11 +188,16 @@ const Index = () => {
     const steps = Math.floor(distance / 40); // every 40px = next image
     const newIndex = ((dragRef.current.startIndex + steps * direction) % heroServices.length + heroServices.length) % heroServices.length;
     setActiveService(newIndex);
+    // Subtle 3D tilt based on drag offset (clamped to ±12deg)
+    const tiltY = Math.max(-12, Math.min(12, dx * 0.06));
+    const tiltX = Math.max(-8, Math.min(8, -dy * 0.06));
+    setDragTilt({ x: tiltX, y: tiltY });
   }, []);
 
   const handlePointerUp = useCallback(() => {
     setIsDragging(false);
     dragRef.current = null;
+    setDragTilt({ x: 0, y: 0 });
   }, []);
   const [selectedVehicle, setSelectedVehicle] = useState<string>("");
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
@@ -223,19 +229,29 @@ const Index = () => {
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerUp}
       >
-        {/* Cycling background images */}
-        {heroServices.map((svc, i) => (
-          <motion.img
-            key={svc.name}
-            src={svc.image}
-            alt={svc.name}
-            initial={false}
-            animate={{ opacity: activeService === i ? 1 : 0, scale: activeService === i ? 1 : 1.05 }}
-            transition={{ duration: isDragging ? 0.15 : 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute inset-0 w-full h-full object-cover pointer-events-none"
-            draggable={false}
-          />
-        ))}
+        {/* Cycling background images with 3D tilt */}
+        <motion.div
+          className="absolute inset-0 pointer-events-none"
+          style={{ perspective: 1200 }}
+          animate={{
+            rotateX: isDragging ? dragTilt.x : 0,
+            rotateY: isDragging ? dragTilt.y : 0,
+          }}
+          transition={{ type: "spring", stiffness: 200, damping: 20 }}
+        >
+          {heroServices.map((svc, i) => (
+            <motion.img
+              key={svc.name}
+              src={svc.image}
+              alt={svc.name}
+              initial={false}
+              animate={{ opacity: activeService === i ? 1 : 0, scale: activeService === i ? 1 : 1.05 }}
+              transition={{ duration: isDragging ? 0.15 : 0.4, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute inset-0 w-full h-full object-cover"
+              draggable={false}
+            />
+          ))}
+        </motion.div>
         <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/50 to-background pointer-events-none" />
 
         {/* Drag hint */}
