@@ -188,6 +188,10 @@ const Index = () => {
     const steps = Math.floor(distance / 40); // every 40px = next image
     const newIndex = ((dragRef.current.startIndex + steps * direction) % heroServices.length + heroServices.length) % heroServices.length;
     setActiveService(newIndex);
+    // Subtle 3D tilt based on drag offset (clamped to ±12deg)
+    const tiltY = Math.max(-12, Math.min(12, dx * 0.06));
+    const tiltX = Math.max(-8, Math.min(8, -dy * 0.06));
+    setDragTilt({ x: tiltX, y: tiltY });
   }, []);
 
   const handlePointerUp = useCallback(() => {
