@@ -153,6 +153,7 @@ const Index = () => {
   const [activeService, setActiveService] = useState(0);
   const [showTitle, setShowTitle] = useState(true);
   const [isDragging, setIsDragging] = useState(false);
+  const [dragTilt, setDragTilt] = useState({ x: 0, y: 0 });
   const dragRef = useRef<{ startX: number; startY: number; startIndex: number } | null>(null);
   const autoPlayRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
