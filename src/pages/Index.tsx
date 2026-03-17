@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Shield, Droplets, Sparkles, Car, Star, User, Check, ChevronRight } from "lucide-react";
@@ -152,18 +152,46 @@ const heroServices = [
 const Index = () => {
   const [activeService, setActiveService] = useState(0);
   const [showTitle, setShowTitle] = useState(true);
+  const [isDragging, setIsDragging] = useState(false);
+  const dragRef = useRef<{ startX: number; startY: number; startIndex: number } | null>(null);
+  const autoPlayRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
+  // Auto-cycle when not dragging
   useEffect(() => {
-    const interval = setInterval(() => {
+    if (isDragging) return;
+    autoPlayRef.current = setInterval(() => {
       setActiveService((prev) => (prev + 1) % heroServices.length);
     }, 800);
-    return () => clearInterval(interval);
-  }, []);
+    return () => { if (autoPlayRef.current) clearInterval(autoPlayRef.current); };
+  }, [isDragging]);
 
   // Hide title after 3 seconds
   useEffect(() => {
     const timer = setTimeout(() => setShowTitle(false), 3000);
     return () => clearTimeout(timer);
+  }, []);
+
+  const handlePointerDown = useCallback((e: React.PointerEvent) => {
+    setIsDragging(true);
+    dragRef.current = { startX: e.clientX, startY: e.clientY, startIndex: activeService };
+    (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
+  }, [activeService]);
+
+  const handlePointerMove = useCallback((e: React.PointerEvent) => {
+    if (!dragRef.current) return;
+    const dx = e.clientX - dragRef.current.startX;
+    const dy = e.clientY - dragRef.current.startY;
+    // Combine horizontal and vertical movement for omnidirectional spin
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    const direction = dx + dy > 0 ? 1 : -1;
+    const steps = Math.floor(distance / 40); // every 40px = next image
+    const newIndex = ((dragRef.current.startIndex + steps * direction) % heroServices.length + heroServices.length) % heroServices.length;
+    setActiveService(newIndex);
+  }, []);
+
+  const handlePointerUp = useCallback(() => {
+    setIsDragging(false);
+    dragRef.current = null;
   }, []);
   const [selectedVehicle, setSelectedVehicle] = useState<string>("");
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
@@ -187,7 +215,14 @@ const Index = () => {
   return (
     <div>
       {/* Hero */}
-      <section className="relative min-h-svh flex items-center justify-center overflow-hidden">
+      <section
+        className="relative min-h-svh flex items-center justify-center overflow-hidden select-none"
+        style={{ cursor: isDragging ? "grabbing" : "grab", touchAction: "none" }}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerUp}
+      >
         {/* Cycling background images */}
         {heroServices.map((svc, i) => (
           <motion.img
@@ -196,13 +231,24 @@ const Index = () => {
             alt={svc.name}
             initial={false}
             animate={{ opacity: activeService === i ? 1 : 0, scale: activeService === i ? 1 : 1.05 }}
-            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute inset-0 w-full h-full object-cover"
+            transition={{ duration: isDragging ? 0.15 : 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+            draggable={false}
           />
         ))}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/50 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/50 to-background pointer-events-none" />
 
-        <div className="relative z-10 text-center section-container">
+        {/* Drag hint */}
+        <motion.div
+          initial={{ opacity: 1 }}
+          animate={{ opacity: isDragging ? 0 : 1 }}
+          className="absolute top-6 right-6 z-20 flex items-center gap-2 glass-surface px-3 py-2 rounded-sm pointer-events-none"
+        >
+          <span className="font-mono text-xs text-muted-foreground uppercase tracking-wider">Drag to spin 360°</span>
+        </motion.div>
+
+        <div className="relative z-10 text-center section-container pointer-events-none">
+          <div className="pointer-events-auto">
           <motion.h1
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: showTitle ? 1 : 0, y: showTitle ? 0 : -30 }}
@@ -251,6 +297,7 @@ const Index = () => {
             <Link to="/booking" className="btn-primary shimmer">Book Appointment</Link>
             <Link to="/services" className="btn-outline">Explore Services</Link>
           </motion.div>
+          </div>
         </div>
 
         {/* Stats bar */}
