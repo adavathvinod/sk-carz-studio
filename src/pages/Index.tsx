@@ -215,7 +215,14 @@ const Index = () => {
   return (
     <div>
       {/* Hero */}
-      <section className="relative min-h-svh flex items-center justify-center overflow-hidden">
+      <section
+        className="relative min-h-svh flex items-center justify-center overflow-hidden select-none"
+        style={{ cursor: isDragging ? "grabbing" : "grab", touchAction: "none" }}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerUp}
+      >
         {/* Cycling background images */}
         {heroServices.map((svc, i) => (
           <motion.img
@@ -224,13 +231,24 @@ const Index = () => {
             alt={svc.name}
             initial={false}
             animate={{ opacity: activeService === i ? 1 : 0, scale: activeService === i ? 1 : 1.05 }}
-            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute inset-0 w-full h-full object-cover"
+            transition={{ duration: isDragging ? 0.15 : 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+            draggable={false}
           />
         ))}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/50 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/50 to-background pointer-events-none" />
 
-        <div className="relative z-10 text-center section-container">
+        {/* Drag hint */}
+        <motion.div
+          initial={{ opacity: 1 }}
+          animate={{ opacity: isDragging ? 0 : 1 }}
+          className="absolute top-6 right-6 z-20 flex items-center gap-2 glass-surface px-3 py-2 rounded-sm pointer-events-none"
+        >
+          <span className="font-mono text-xs text-muted-foreground uppercase tracking-wider">Drag to spin 360°</span>
+        </motion.div>
+
+        <div className="relative z-10 text-center section-container pointer-events-none">
+          <div className="pointer-events-auto">
           <motion.h1
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: showTitle ? 1 : 0, y: showTitle ? 0 : -30 }}
