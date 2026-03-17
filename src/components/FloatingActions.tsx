@@ -1,8 +1,41 @@
-import { Phone, MessageCircle } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { Phone, MessageCircle, Volume2, VolumeX } from "lucide-react";
 
 const FloatingActions = () => {
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  useEffect(() => {
+    audioRef.current = new Audio("/audio/bg-music.mp3");
+    audioRef.current.loop = true;
+    audioRef.current.volume = 0.4;
+    return () => {
+      audioRef.current?.pause();
+      audioRef.current = null;
+    };
+  }, []);
+
+  const toggleMusic = () => {
+    if (!audioRef.current) return;
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play();
+    }
+    setIsPlaying(!isPlaying);
+  };
+
   return (
     <div className="fixed bottom-8 right-8 z-50 flex flex-col gap-4">
+      {/* Music Toggle */}
+      <button
+        onClick={toggleMusic}
+        className="w-14 h-14 rounded-full bg-primary flex items-center justify-center transition-transform duration-300 hover:scale-110 shadow-lg"
+        aria-label={isPlaying ? "Mute music" : "Play music"}
+      >
+        {isPlaying ? <Volume2 className="w-6 h-6 text-primary-foreground" /> : <VolumeX className="w-6 h-6 text-primary-foreground" />}
+      </button>
+
       {/* Instagram */}
       <a
         href="https://www.instagram.com/sk_carz._/"
