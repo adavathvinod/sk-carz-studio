@@ -197,6 +197,7 @@ const Index = () => {
   const handlePointerUp = useCallback(() => {
     setIsDragging(false);
     dragRef.current = null;
+    setDragTilt({ x: 0, y: 0 });
   }, []);
   const [selectedVehicle, setSelectedVehicle] = useState<string>("");
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
